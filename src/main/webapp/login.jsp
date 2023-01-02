@@ -12,6 +12,7 @@
     <label for="password">Password</label><br/>
     <input id="password" type="password" name="password" size="30"><br/>
     <input type="submit" value="OK">
+
 </form>
 </body>
 </html>
