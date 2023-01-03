@@ -34,18 +34,20 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        List<String> userList = users.getUsers();
+
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        List<String> userList = users.getUsers();
+
         if ((request.getParameter("login") == null) || (request.getParameter("password") == null)) {
-            response.sendRedirect("/login.jsp");
+            request.getRequestDispatcher("/login.jsp").forward(request,response);
         } else {
             if ((userList.contains(login)) && (password.trim().length() > 0)) {
+                HttpSession session = request.getSession();
                 session.setAttribute("user", login);
                 response.sendRedirect("/user/hello.jsp");
             } else {
-                response.sendRedirect("/login.jsp");
+                request.getRequestDispatcher("/login.jsp").forward(request,response);
             }
         }
     }
