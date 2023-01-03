@@ -14,16 +14,18 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
     private Users users;
+
     @Override
     public void init() throws ServletException {
         super.init();
         users = Users.getInstance();
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String userSession = (String) session.getAttribute("user");
-        if (userSession != null){
+        if (userSession != null) {
             response.sendRedirect("/user/hello.jsp");
         } else {
             response.sendRedirect("/login.jsp");
@@ -36,14 +38,15 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         List<String> userList = users.getUsers();
-
-        if ( (login != null) && (password != null) && (userList.contains(login))  && (password.trim().length()>0)  ) {
-            session.setAttribute("user", login);
-            response.sendRedirect("/user/hello.jsp");
-        } else {
+        if ((request.getParameter("login") == null) || (request.getParameter("password") == null)) {
             response.sendRedirect("/login.jsp");
+        } else {
+            if ((userList.contains(login)) && (password.trim().length() > 0)) {
+                session.setAttribute("user", login);
+                response.sendRedirect("/user/hello.jsp");
+            } else {
+                response.sendRedirect("/login.jsp");
+            }
         }
-
     }
-
 }
