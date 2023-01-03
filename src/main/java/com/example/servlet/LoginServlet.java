@@ -39,16 +39,13 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        if ((request.getParameter("login") == null) || (request.getParameter("password") == null)) {
-            request.getRequestDispatcher("/login.jsp").forward(request,response);
+        if ((login != null) && (password != null) && (userList.contains(login)) && (password.trim().length() > 0)) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", login);
+            response.sendRedirect("/user/hello.jsp");
         } else {
-            if ((userList.contains(login)) && (password.trim().length() > 0)) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", login);
-                response.sendRedirect("/user/hello.jsp");
-            } else {
-                request.getRequestDispatcher("/login.jsp").forward(request,response);
-            }
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
+
     }
 }
