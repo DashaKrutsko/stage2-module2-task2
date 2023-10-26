@@ -11,6 +11,5 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext().setAttribute("servletTimeInit",LocalDateTime.now());
         System.out.println(LocalDateTime.now());
-
     }
 }

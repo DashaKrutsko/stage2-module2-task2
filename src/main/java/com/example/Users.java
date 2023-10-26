@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Users {
     private static final Users INSTANCE = new Users();
-
     private final List<String> users;
 
     private Users() {
