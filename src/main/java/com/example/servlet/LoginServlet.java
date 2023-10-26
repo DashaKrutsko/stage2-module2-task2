@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String userSession = (String) session.getAttribute("user");
         if (userSession != null) {
@@ -33,19 +33,19 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<String> userList = users.getUsers();
 
         String login = request.getParameter("login");
-        String password = request.getParameter("password").trim();
+        String password = request.getParameter("password");
 
-        if (login != null && userList.contains(login)) {
+        if (userList.contains(login) && !password.isEmpty()) {
             HttpSession session = request.getSession();
             session.setAttribute("user", login);
-            session.setAttribute("password", password);
             response.sendRedirect("/user/hello.jsp");
         } else {
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+           request.getRequestDispatcher("/login.jsp").forward(request, response);
+
         }
 
     }
